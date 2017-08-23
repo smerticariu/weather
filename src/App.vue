@@ -1,6 +1,20 @@
 <template>
-  <div id="app">
-    <router-view></router-view>
+  <div class="weather">
+    <header>
+      <nav class="navbar">
+          <ul class="navbar-links">
+            <li>
+              <router-link to="/">Current Weather</router-link>
+            </li>
+            <li>
+              <router-link to="/daily">Weekly forecast</router-link>
+            </li>
+          </ul>
+      </nav>
+    </header>
+    <div id="app">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 

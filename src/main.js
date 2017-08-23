@@ -10,6 +10,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 Vue.use(BootstrapVue)
+Vue.use(router)
 
 Vue.config.productionTip = false
 
@@ -23,9 +24,7 @@ new Vue({
 
 // Custom filters
 Vue.filter('date', function (value) {
-  // return `${new Date(value * 1000).getDate()}/${new Date(value * 1000).getDay()}/${new Date(value * 1000).getYear()}`
   let data = new Date(value * 1000)
-
   let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
   let year = data.getFullYear()
   let month = months[data.getMonth()]
@@ -34,4 +33,10 @@ Vue.filter('date', function (value) {
   let min = data.getMinutes()
   var time = `${date} ${month} ${year} ${hour}:${min}`
   return time
+})
+
+Vue.filter('day', function (value) {
+  let data = new Date(value * 1000)
+  const weekday = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+  return weekday[data.getDay()]
 })

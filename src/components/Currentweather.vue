@@ -1,8 +1,11 @@
 <template>
-  <div class="hello">
+  <div class="current-weather">
   <!-- Weather for current location -->
     <p v-if="current.lat>0">Your current location: {{current.city}}</p>
     <ul v-if="current.data.name">
+      <li>
+        <img :src="weatherIcon+current.data.weather[0].icon+'.png'"/>
+      </li>
       <li>{{current.data.name}}</li>
       <li>{{current.data.sys.country}}</li>
       <li>{{current.data.weather[0].description}}</li>
@@ -24,6 +27,9 @@
         get weather
     </button>
     <ul v-if="selectedLocation.data.name">
+      <li>
+        <img :src="weatherIcon+selectedLocation.data.weather[0].icon+'.png'"/>
+      </li>
       <li>{{selectedLocation.data.name}}</li>
       <li>{{selectedLocation.data.sys.country}}</li>
       <li>{{selectedLocation.data.weather[0].description}}</li>
@@ -35,15 +41,21 @@
       <li>Sunset: {{selectedLocation.data.sys.sunset | date}}</li>
       <li>VIsibility {{selectedLocation.data.visibility}}</li>
     </ul>
+
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+let googleApiKey = 'AIzaSyAqcFHBPQuY6E-Fd5mn9DKlks8tHhHHewM'
+let weatherApiKey = 'd73e207becc4f681e19fa944ff359cf8'
+let weatherApiQuery = 'http://api.openweathermap.org/data/2.5/weather?q='
+let googleLocationQuery = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='
 export default {
-  name: 'hello',
+  name: 'currentWeather',
   data () {
     return {
+      weatherIcon: 'http://openweathermap.org/img/w/',
       current: {
         lat: 0,
         long: 0,
@@ -70,14 +82,13 @@ export default {
       self.current.lat = pos.coords.latitude
       self.current.long = pos.coords.longitude
       // Get current city name by coordinates
-      axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${pos.coords.latitude},${pos.coords.longitude}&sensor=true&key=AIzaSyAqcFHBPQuY6E-Fd5mn9DKlks8tHhHHewM`)
+      axios.get(`${googleLocationQuery}${pos.coords.latitude},${pos.coords.longitude}&key=${googleApiKey}`)
       .then(response => {
         self.current.position = response.data.results[2].formatted_address
         self.current.city = self.current.position.split(' ')[0].split(',')[0]
-        console.log(self.current.city)
 
         // Get weather for current position
-        axios.get(`http://api.openweathermap.org/data/2.5/weather?q=${self.current.city}&units=metric&&appid=d73e207becc4f681e19fa944ff359cf8`)
+        axios.get(`${weatherApiQuery}${self.current.city}&units=metric&type=accurate&&appid=${weatherApiKey}`)
         .then(response => {
           console.log(response)
           self.current.data = response.data
@@ -93,7 +104,7 @@ export default {
   },
   methods: {
     getLocationByCityName (cityName) {
-      axios.get(`http://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&&appid=d73e207becc4f681e19fa944ff359cf8`)
+      axios.get(`${weatherApiQuery}${cityName}&units=metric&&appid=${weatherApiKey}`)
       .then(response => {
         this.selectedLocation.data = response.data
       })
