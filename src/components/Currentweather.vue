@@ -1,52 +1,115 @@
 <template>
   <div class="current-weather">
-  <!-- Weather for current location -->
-    <p v-if="current.lat>0">Your current location: {{current.city}}</p>
-    <ul v-if="current.data.name">
-      <li>
-        <img :src="weatherIcon+current.data.weather[0].icon+'.png'"/>
-      </li>
-      <li>{{current.data.name}}</li>
-      <li>{{current.data.sys.country}}</li>
-      <li>{{current.data.weather[0].description}}</li>
-      <li>{{current.data.main.temp}} &#x2103;</li>
-      <li>{{current.data.main.pressure}} hPa pressure</li>
-      <li>{{current.data.main.humidity}}% humidity</li>
-      <li>{{current.data.main.temp_min}} &#x2103; -  {{current.data.main.temp_max}} &#x2103;</li>
-      <li>Sunrise: {{current.data.sys.sunrise | date}}</li>
-      <li>Sunset: {{current.data.sys.sunset | date}}</li>
-      <li>VIsibility {{current.data.visibility}}</li>
-    </ul>
+    <div class="search-current-weather clearfix">
+      <navbar class="float-right"/>
+      <div class="float-right">
+        <input
+          class="form-control"
+          placeholder="Enter location"
+          type="text"
+          v-model="selectedLocation.name"
+          @keyup.enter="getLocationByCityName(selectedLocation.name)"/>
+        <button
+          class="btn btn-primary"
+          @click="getLocationByCityName(selectedLocation.name)">
+            Get weather
+        </button>
+      </div>
+    </div>
+    <div class="container">
+      <!-- Current-Weather-Widget -->
+        <div class="weather-widget">
+          <div
+            class="place"
+            v-if="current.data.name">
 
-    <input
-      type="text"
-      v-model="selectedLocation.name"
-      @keyup.enter="getLocationByCityName(selectedLocation.name)"/>
-    <button
-      @click="getLocationByCityName(selectedLocation.name)">
-        get weather
-    </button>
-    <ul v-if="selectedLocation.data.name">
-      <li>
-        <img :src="weatherIcon+selectedLocation.data.weather[0].icon+'.png'"/>
-      </li>
-      <li>{{selectedLocation.data.name}}</li>
-      <li>{{selectedLocation.data.sys.country}}</li>
-      <li>{{selectedLocation.data.weather[0].description}}</li>
-      <li>{{selectedLocation.data.main.temp}} &#x2103;</li>
-      <li>{{selectedLocation.data.main.pressure}} hPa pressure</li>
-      <li>{{selectedLocation.data.main.humidity}}% humidity</li>
-      <li>{{selectedLocation.data.main.temp_min}} &#x2103; -  {{selectedLocation.data.main.temp_max}} &#x2103;</li>
-      <li>Sunrise: {{selectedLocation.data.sys.sunrise | date}}</li>
-      <li>Sunset: {{selectedLocation.data.sys.sunset | date}}</li>
-      <li>VIsibility {{selectedLocation.data.visibility}}</li>
-    </ul>
+            <div class="city">
+              <p>{{current.data.name}}</p>
+            </div>
+
+            <div id="txt">Today</div>
+
+            <div class="w3temperatureaits">
+              <div class="w3temperatureaits-grid  wthreetemp">
+                <p>{{current.data.main.temp | round}}° C</p>
+              </div>
+              <div class="w3temperatureaits-grid">
+                <figure class="icons">
+                  <img :src="weatherIcon+current.data.weather[0].icon+'.png'"/>
+                </figure>
+              </div>
+              <div class="w3temperatureaits-grid">
+                <ul>
+                  <li class="agiletempCurrent">
+                    {{current.data.main.pressure * 0.75006156130264 | round}} mm Hg
+                  </li>
+                  <li class="agiletempCurrent">
+                    {{current.data.main.humidity}}% Humidity
+                  </li>
+                  <li class="agiletempCurrent">
+                    Sunrise: {{current.data.sys.sunrise | date}}
+                  </li>
+                  <li class="agiletempCurrent">
+                    Sunset: {{current.data.sys.sunset | date}}
+                  </li>
+                </ul>
+              </div>
+              <div class="clear"></div>
+            </div>
+          </div>
+
+          <div
+            class="place"
+            v-if="selectedLocation.data.name">
+
+            <div class="city">
+              <p>{{selectedLocation.data.name}}</p>
+            </div>
+
+            <div id="txt">Today</div>
+
+            <div class="w3temperatureaits">
+              <div class="w3temperatureaits-grid  wthreetemp">
+                <p>{{selectedLocation.data.main.temp | round}}° C</p>
+              </div>
+              <div class="w3temperatureaits-grid">
+                <figure class="icons">
+                  <img :src="weatherIcon+selectedLocation.data.weather[0].icon+'.png'"/>
+                </figure>
+              </div>
+              <div class="w3temperatureaits-grid">
+                <ul>
+                  <li class="agiletempCurrent">
+                    {{selectedLocation.data.main.pressure * 0.75006156130264 | round}} mm Hg
+                  </li>
+                  <li class="agiletempCurrent">
+                    {{selectedLocation.data.main.humidity}}% Humidity
+                  </li>
+                  <li class="agiletempCurrent">
+                    Sunrise: {{selectedLocation.data.sys.sunrise | date}}
+                  </li>
+                  <li class="agiletempCurrent">
+                    Sunset: {{selectedLocation.data.sys.sunset | date}}
+                  </li>
+                </ul>
+              </div>
+              <div class="clear"></div>
+            </div>
+          </div>
+        </div>
+        <!-- //Current-Weather-Widget -->
+      </div>
+    </div>
+
+
+
 
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+import navbar from '@/components/Navbar'
 let googleApiKey = 'AIzaSyAqcFHBPQuY6E-Fd5mn9DKlks8tHhHHewM'
 let weatherApiKey = 'd73e207becc4f681e19fa944ff359cf8'
 let weatherApiQuery = 'http://api.openweathermap.org/data/2.5/weather?q='
@@ -112,22 +175,9 @@ export default {
         console.error(e)
       })
     }
+  },
+  components: {
+    navbar
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-a {
-  color: #42b983;
-}
-</style>

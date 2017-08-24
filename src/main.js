@@ -38,5 +38,5 @@ Vue.filter('date', function (value) {
 Vue.filter('day', function (value) {
   let data = new Date(value * 1000)
   const weekday = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-  return weekday[data.getDay()]
+  return `${data.getDate()}/${weekday[data.getDay()]}`
 })
