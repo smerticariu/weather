@@ -1,6 +1,6 @@
 # weather
 
-> live weather
+small weather application in VueJs
 
 ## Build Setup
 
@@ -18,4 +18,4 @@ npm run build
 npm run build --report
 ```
 
-# HTML template copyright W3layouts
+HTML template copyright - W3layouts
