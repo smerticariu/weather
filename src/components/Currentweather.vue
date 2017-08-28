@@ -112,13 +112,13 @@ import axios from 'axios'
 import navbar from '@/components/Navbar'
 let googleApiKey = 'AIzaSyAqcFHBPQuY6E-Fd5mn9DKlks8tHhHHewM'
 let weatherApiKey = 'd73e207becc4f681e19fa944ff359cf8'
-let weatherApiQuery = 'http://api.openweathermap.org/data/2.5/weather?q='
+let weatherApiQuery = 'https://api.openweathermap.org/data/2.5/weather?q='
 let googleLocationQuery = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='
 export default {
   name: 'currentWeather',
   data () {
     return {
-      weatherIcon: 'http://openweathermap.org/img/w/',
+      weatherIcon: 'https://openweathermap.org/img/w/',
       current: {
         lat: 0,
         long: 0,

@@ -40,3 +40,7 @@ Vue.filter('day', function (value) {
   const weekday = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
   return `${data.getDate()}/${weekday[data.getDay()]}`
 })
+
+Vue.filter('round', function (value) {
+  return Math.round(value)
+})

@@ -87,7 +87,7 @@
 import axios from 'axios'
 let googleApiKey = 'AIzaSyAqcFHBPQuY6E-Fd5mn9DKlks8tHhHHewM'
 let weatherApiKey = 'd73e207becc4f681e19fa944ff359cf8'
-let weatherApiQuery = 'http://api.openweathermap.org/data/2.5/forecast/daily?q='
+let weatherApiQuery = 'https://api.openweathermap.org/data/2.5/forecast/daily?q='
 let googleLocationQuery = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='
 import navbar from '@/components/Navbar'
 export default {
@@ -96,7 +96,7 @@ export default {
     return {
       daysNo: 1,
       selectedDays: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
-      weatherIcon: 'http://openweathermap.org/img/w/',
+      weatherIcon: 'https://openweathermap.org/img/w/',
       current: {
         lat: 0,
         long: 0,
