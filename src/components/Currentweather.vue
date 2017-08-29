@@ -134,11 +134,20 @@ export default {
   },
   created () {
     var self = this
+
+    var ua = navigator.userAgent.toLowerCase()
+    var isAndroid = ua.indexOf('android') > -1
+    var geoTimeout = isAndroid ? 15000 : 1000
     // Check if user's browser supports geolocation
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(getPosition)
+      // navigator.geolocation.getCurrentPosition(getPosition)
+      navigator.geolocation.getCurrentPosition(getPosition, error, {enableHighAccuracy: true, maximumAge: 3000, timeout: geoTimeout})
     } else {
       console.error('Geolocation is not supported by your browser.')
+    }
+
+    function error (error) {
+      alert(error)
     }
 
     function getPosition (pos) {
