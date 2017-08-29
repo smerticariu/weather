@@ -24,62 +24,56 @@
         </select>
       </div>
     </div>
-    <div
-      v-if="current.data.city"
-      v-for="day in current.data.list"
-      class="container">
-      <!-- Current-Weather-Widget -->
-        <div class="weather-widget">
-          <div class="place">
 
-            <div class="city">
-              <p>{{current.data.city.name}}</p>
-            </div>
-
-            <div id="txt">{{day.dt | day}}</div>
-
-            <div class="w3temperatureaits">
-              <div class="w3temperatureaits-grid  wthreetemp">
-                <p>{{day.temp.day | round}}° C</p>
-              </div>
-              <div class="w3temperatureaits-grid">
-                <figure class="icons">
-                  <img :src="weatherIcon+day.weather[0].icon+'.png'"/>
-                </figure>
-              </div>
-              <div class="w3temperatureaits-grid">
-                <ul>
-                  <li class="agiletemp">
-                    {{day.pressure * 0.75006156130264 | round}} mm Hg
-                  </li>
-                  <li class="agiletemp">
-                    {{day.humidity}}% Humidity
-                  </li>
-                  <li class="agiletemp">{{day.speed}}m/s</li>
-                </ul>
-              </div>
-              <div class="clear"></div>
-            </div>
-
-            <div
-              v-if="selectedLocation.data.city"
-              class="agileits text-center"
-              v-for="day in selectedLocation.data.list">
-              <div class="item w3threeitem">
-                <h4>{{selectedLocation.data.city.name}}</h4>
-                <p class="txt">{{day.dt | day}}</p>
-                <figure class="icons">
-                  <img :src="weatherIcon+day.weather[0].icon+'.png'"/>
-                </figure>
-                <h5>{{day.temp.max}}°C</h5>
-                <h6>{{day.temp.min}}°C</h6>
-              </div>
-            </div>
-
+      <div
+        class="main"
+        v-if="current.data.city"
+        v-for="day in current.data.list">
+      <h1>Modern Weather Widget</h1>
+      <div class="main-current-info">
+        <div class="weather-center">
+          <div class="weather-text">
+            <h3><p>{{day.dt | day}}</p></h3>
+            <h3><p>{{current.data.city.name}}</p></h3>
+            <img :src="weatherIcon+day.weather[0].icon+'.png'"/>
+            <ul class="temp">
+              <li>
+                {{day.pressure * 0.75006156130264 | round}} mm Hg
+              </li>
+              <li>
+                {{day.humidity}}% Humidity
+              </li>
+              <li>
+                {{day.speed}}m/s
+              </li>
+            </ul>
           </div>
         </div>
-        <!-- //Current-Weather-Widget -->
+        <div class="clear"></div>
       </div>
+    </div>
+
+
+    <div
+      class="main"
+      v-if="selectedLocation.data.city">
+      <div class="main-info">
+        <div
+          class="weather-left"
+          v-for="day in selectedLocation.data.list">
+          <div class="weather-text">
+            <h3><p>{{day.dt | day}}</p></h3>
+            <h3>{{selectedLocation.data.city.name}}</h3>
+            <img :src="weatherIcon+day.weather[0].icon+'.png'"/>
+            <h4>{{day.temp.max}}°C</h4>
+            <h4>{{day.temp.min}}°C</h4>
+          </div>
+        </div>
+        <div class="clear"> </div>
+      </div>
+    </div>
+
+
     </div>
 </template>
 

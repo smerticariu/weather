@@ -16,93 +16,68 @@
         </button>
       </div>
     </div>
-    <div class="container">
-      <!-- Current-Weather-Widget -->
-        <div class="weather-widget">
-          <div
-            class="place"
-            v-if="current.data.name">
-
-            <div class="city">
-              <p>{{current.data.name}}</p>
-            </div>
-
-            <div id="txt">Today</div>
-
-            <div class="w3temperatureaits">
-              <div class="w3temperatureaits-grid  wthreetemp">
-                <p>{{current.data.main.temp | round}}° C</p>
-              </div>
-              <div class="w3temperatureaits-grid">
-                <figure class="icons">
-                  <img :src="weatherIcon+current.data.weather[0].icon+'.png'"/>
-                </figure>
-              </div>
-              <div class="w3temperatureaits-grid">
-                <ul>
-                  <li class="agiletempCurrent">
-                    {{current.data.main.pressure * 0.75006156130264 | round}} mm Hg
-                  </li>
-                  <li class="agiletempCurrent">
-                    {{current.data.main.humidity}}% Humidity
-                  </li>
-                  <li class="agiletempCurrent">
-                    Sunrise: {{current.data.sys.sunrise | date}}
-                  </li>
-                  <li class="agiletempCurrent">
-                    Sunset: {{current.data.sys.sunset | date}}
-                  </li>
-                </ul>
-              </div>
-              <div class="clear"></div>
-            </div>
-          </div>
-
-          <div
-            class="place"
-            v-if="selectedLocation.data.name">
-
-            <div class="city">
-              <p>{{selectedLocation.data.name}}</p>
-            </div>
-
-            <div id="txt">Today</div>
-
-            <div class="w3temperatureaits">
-              <div class="w3temperatureaits-grid  wthreetemp">
-                <p>{{selectedLocation.data.main.temp | round}}° C</p>
-              </div>
-              <div class="w3temperatureaits-grid">
-                <figure class="icons">
-                  <img :src="weatherIcon+selectedLocation.data.weather[0].icon+'.png'"/>
-                </figure>
-              </div>
-              <div class="w3temperatureaits-grid">
-                <ul>
-                  <li class="agiletempCurrent">
-                    {{selectedLocation.data.main.pressure * 0.75006156130264 | round}} mm Hg
-                  </li>
-                  <li class="agiletempCurrent">
-                    {{selectedLocation.data.main.humidity}}% Humidity
-                  </li>
-                  <li class="agiletempCurrent">
-                    Sunrise: {{selectedLocation.data.sys.sunrise | date}}
-                  </li>
-                  <li class="agiletempCurrent">
-                    Sunset: {{selectedLocation.data.sys.sunset | date}}
-                  </li>
-                </ul>
-              </div>
-              <div class="clear"></div>
-            </div>
+    <!-- Current weather -->
+    <div
+      class="main"
+      v-if="current.data.name">
+      <h1>Modern Weather Widget</h1>
+      <div class="main-current-info">
+        <div class="weather-center">
+          <div class="weather-text">
+            <h3><p>Today</p></h3>
+            <h3><p>{{current.data.name}}</p></h3>
+            <img :src="weatherIcon+current.data.weather[0].icon+'.png'"/>
+            <h4>{{current.data.main.temp | round}}° C</h4>
+            <ul class="temp">
+              <li>
+                {{current.data.main.pressure * 0.75006156130264 | round}} mm Hg
+              </li>
+              <li>
+                {{current.data.main.humidity}}% Humidity
+              </li>
+              <li>
+                Sunrise: {{current.data.sys.sunrise | date}}
+              </li>
+              <li>
+                Sunset: {{current.data.sys.sunset | date}}
+              </li>
+            </ul>
           </div>
         </div>
-        <!-- //Current-Weather-Widget -->
+        <div class="clear"></div>
       </div>
     </div>
 
-
-
+    <!-- Selected location's weather -->
+    <div
+      class="main"
+      v-if="selectedLocation.data.name">
+      <div class="main-current-info">
+        <div class="weather-center">
+          <div class="weather-text">
+            <h3><p>Today</p></h3>
+            <h3><p>{{selectedLocation.data.name}}</p></h3>
+            <img :src="weatherIcon+selectedLocation.data.weather[0].icon+'.png'"/>
+            <h4>{{selectedLocation.data.main.temp | round}}° C</h4>
+            <ul class="temp">
+              <li>
+                {{selectedLocation.data.main.pressure * 0.75006156130264 | round}} mm Hg
+              </li>
+              <li>
+                {{selectedLocation.data.main.humidity}}% Humidity
+              </li>
+              <li>
+                Sunrise: {{selectedLocation.data.sys.sunrise | date}}
+              </li>
+              <li>
+                Sunset: {{selectedLocation.data.sys.sunset | date}}
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="clear"></div>
+      </div>
+    </div>
 
   </div>
 </template>
@@ -139,11 +114,15 @@ export default {
     var isAndroid = ua.indexOf('android') > -1
     var geoTimeout = isAndroid ? 15000 : 1000
     // Check if user's browser supports geolocation
-    if (navigator.geolocation) {
-      // navigator.geolocation.getCurrentPosition(getPosition)
-      navigator.geolocation.getCurrentPosition(getPosition, error, {enableHighAccuracy: true, maximumAge: 3000, timeout: geoTimeout})
+    if (isAndroid) {
+      if (navigator.geolocation) {
+        // navigator.geolocation.getCurrentPosition(getPosition)
+        navigator.geolocation.getCurrentPosition(getPosition, error, {enableHighAccuracy: true, maximumAge: 3000, timeout: geoTimeout})
+      } else {
+        console.error('Geolocation is not supported by your browser.')
+      }
     } else {
-      console.error('Geolocation is not supported by your browser.')
+      navigator.geolocation.getCurrentPosition(getPosition)
     }
 
     function error (error) {
